@@ -1,50 +1,66 @@
 import React, { useState } from "react";
 import { userLogin } from "src/services/user.service";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { setLocalStorage } from "src/utils";
 import { ACCESS_TOKEN } from "src/constants";
-import css from "./index.module.scss";
+import css from "./login.module.scss";
+import { useFormik } from "formik";
+import * as Y from "yup";
+
+const loginSchema = Y.object({
+  email: Y.string()
+    .email()
+    .required("Bắt buộc nhập vào email")
+    .email("email không hợp lệ"),
+  password: Y.string()
+    .min(5, "Password phải lớn hơn 5 ký tự.")
+    .max(20, "Password phải nhỏ hơn 20 ký tự.")
+    .required("Bắt buộc nhập vào password."),
+});
+
+export type TParamsLogin = {
+  email: string;
+  password: string;
+};
 
 function Login() {
-  const [formLogin, setFormLogin] = useState({
-    email: "",
-    password: "",
-  });
-
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
 
-    userLogin(formLogin)
-      .then((resp) => {
-        /**
-         * 1. lưu storage
-         * 2. navigate profile
-         */
-        // localStorage.setItem(
-        //   "accessToken",
-        //   JSON.stringify(resp.content.accessToken),
-        // );
-        setLocalStorage(ACCESS_TOKEN, resp.content.accessToken);
-        navigate("/profile");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+    validationSchema: loginSchema,
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target;
-
-    setFormLogin({
-      ...formLogin,
-      [name]: value,
-    });
-  };
+    onSubmit: function (value) {
+      console.log({ value });
+      const data: TParamsLogin = {
+        email: value.email,
+        password: value.password,
+      };
+      userLogin(data)
+        .then((resp) => {
+          /**
+           * 1. lưu storage
+           * 2. navigate profile
+           */
+          // localStorage.setItem(
+          //   "accessToken",
+          //   JSON.stringify(resp.content.accessToken),
+          // );
+          setLocalStorage(ACCESS_TOKEN, resp.content.accessToken);
+          navigate("/profile");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  });
 
   return (
-    <form className={css["container"]} onSubmit={handleLogin}>
+    <form className={css["container"]} onSubmit={formik.handleSubmit}>
       <h2 className={css["title"]}>Login</h2>
       <div className={css["login-content"]}>
         <div>
@@ -52,33 +68,37 @@ function Login() {
             <p className={css["login-title"]}>Email</p>
             <input
               className={css["login-input"]}
-              name="email"
-              value={formLogin.email}
-              onChange={handleChange}
               placeholder="email"
+              {...formik.getFieldProps("email")}
             />
+            {formik.touched.email && formik.errors.email && (
+              <p className={css["text-danger"]}>{formik.errors.email}</p>
+            )}
           </div>
           <div className={css["form-group"]}>
             <p className={css["login-title"]}>Password</p>
             <input
               className={css["login-input"]}
-              name="password"
-              value={formLogin.password}
-              onChange={handleChange}
+              {...formik.getFieldProps("password")}
               placeholder="password"
             />
+            {formik.touched.password && formik.errors.password && (
+              <p className={css["text-danger"]}>{formik.errors.password}</p>
+            )}
           </div>
           <div className={css["form-group"]}>
             <button className={css["login-button"]} type="submit">
               LOGIN
             </button>
-            <Link to="/register" className={css["login-recommend"]}>Register now ?</Link>
+            <Link to="/register" className={css["login-recommend"]}>
+              Register now ?
+            </Link>
             <br />
             <button className={css["login-button-facebook"]} type="submit">
               <i
                 className="fa-brands fa-facebook"
                 style={{
-                  margin:"1rem",
+                  margin: "1rem",
                 }}
               />
               Continue with Facebook

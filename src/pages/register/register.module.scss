@@ -1,0 +1,56 @@
+.container {
+    margin: auto;
+    width: 80%;
+    .title {
+        font-size: 4rem;
+        font-weight: 400;
+        font-family: "Inter";
+        border-bottom: 0.2rem solid #dedddc;
+        padding: 2rem;
+    }
+    .content {
+        display: flex;
+        justify-content: center;
+        gap: 5rem;
+        .form-group {
+            margin: 3rem 0;
+            .registergin-title {
+                margin: 1rem;
+                font-family: "Roboto";
+                font-size: 1.8rem;
+                font-weight: 500;
+                color: #00000099;
+            }
+            .register-input {
+                width: 45rem;
+                height: 6rem;
+                background-color: #21212114;
+                font-size: 1.6rem;
+                font-weight: 400;
+                color: black;
+                border: none;
+                padding: 2rem;
+            }
+        }
+    }
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    .submit-button {
+        width: 12rem;
+        height: 5rem;
+        border-radius: 5rem;
+        border: none;
+        background-color: #6200ee;
+        font-size: 1.6rem;
+        color: white;
+        font-weight: 500;
+    }
+}
+
+.text-danger {
+    color: red;
+    font-size: 1.6rem;
+}

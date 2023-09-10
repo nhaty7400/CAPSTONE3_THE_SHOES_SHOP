@@ -1,8 +1,9 @@
 import React from "react";
-import { useFormik } from "formik";
+import { Field, useFormik } from "formik";
 import * as Y from "yup";
 import { signup } from "src/services/user.service";
 import { useNavigate } from "react-router-dom";
+import css from "./register.module.scss";
 /**
  *
  * 2 sự lựa chọn
@@ -14,36 +15,47 @@ import { useNavigate } from "react-router-dom";
  */
 
 const registerSchema = Y.object({
-  email: Y.string().email().required(),
+  email: Y.string()
+    .email()
+    .required("Bắt buộc nhập vào email")
+    .email("email không hợp lệ"),
   userName: Y.string()
     .min(5, "User name phải lớn hơn 5 ký tự.")
     .max(20, "User name phải nhỏ hơn 20 ký tự.")
     .required("Bắt buộc nhập vào user name."),
   password: Y.string()
-    .min(5, "User name phải lớn hơn 5 ký tự.")
-    .max(20, "User name phải nhỏ hơn 20 ký tự.")
+    .min(5, "Password phải lớn hơn 5 ký tự.")
+    .max(20, "Password phải nhỏ hơn 20 ký tự.")
     .required("Bắt buộc nhập vào password."),
   confirmPassword: Y.string()
-    .oneOf([Y.ref("password")], "Passwords must match")
+    .oneOf([Y.ref("password")], "Confirm password must match")
     .required("Bắt buộc nhập vào confirm password."),
+  phone: Y.string()
+    .min(9, "Số điện thoại phải lớn hơn 9 số.")
+    .max(10, "Số điện thoại phải nhỏ hơn 10 số.")
+    .required("Bắt buộc nhập vào số điện thoại."),
+  gender: Y.boolean().required("Bắt buộc chọn giới tính."),
 });
 
 export type TParamsRegister = {
   email: string;
   password: string;
   name: string;
-  gender: boolean;
+  gender: any;
   phone: string;
 };
 
 function Register() {
   const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       userName: "", // giống tên name props của input
       password: "",
       confirmPassword: "",
       email: "",
+      phone: "",
+      gender: "",
     },
 
     // chọn 1 trong 2
@@ -83,17 +95,17 @@ function Register() {
     // },
 
     onSubmit: (value) => {
-      console.log({ value });
       const data: TParamsRegister = {
         email: value.email,
-        gender: true,
-        phone: "0123456789",
+        gender: value.gender === "true" ? true : false,
+        phone: value.phone,
         password: value.password,
         name: value.userName,
       };
 
       signup(data)
         .then((resp) => {
+          console.log(data.gender);
           alert("Ok");
           navigate("/login");
         })
@@ -103,41 +115,110 @@ function Register() {
     },
   });
 
-  console.log(formik.getFieldProps("userName"));
-
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <input placeholder="Email" {...formik.getFieldProps("email")} />
-      {formik.touched.email && formik.errors.email && (
-        <p>{formik.errors.email}</p>
-      )}
+    <form className={css["container"]} onSubmit={formik.handleSubmit}>
+      <h2 className={css["title"]}>Register</h2>
+      <div className={css["content"]}>
+        <div className={css["column"]}>
+          <div className={css["form-group"]}>
+            <p className={css["register-title"]}>Email</p>
+            <input
+              className={css["register-input"]}
+              placeholder="Email"
+              {...formik.getFieldProps("email")}
+            />
+            {formik.touched.email && formik.errors.email && (
+              <p className={css["text-danger"]}>{formik.errors.email}</p>
+            )}
+          </div>
+          <div className={css["form-group"]}>
+            <p className={css["register-title"]}>Password</p>
+            <input
+              type="password"
+              className={css["register-input"]}
+              placeholder="Password"
+              {...formik.getFieldProps("password")}
+            />
+            {formik.touched.password && formik.errors.password && (
+              <p className={css["text-danger"]}>{formik.errors.password}</p>
+            )}
+          </div>
+          <div className={css["form-group"]}>
+            <p className={css["register-title"]}>Confirm password</p>
+            <input
+              type="password"
+              className={css["register-input"]}
+              placeholder="Confirm Password"
+              {...formik.getFieldProps("confirmPassword")}
+            />
+            {formik.touched.confirmPassword &&
+              formik.errors.confirmPassword && (
+                <p className={css["text-danger"]}>
+                  {formik.errors.confirmPassword}
+                </p>
+              )}
+          </div>
+        </div>
+        <div className={css["column"]}>
+          <div className={css["form-group"]}>
+            <p className={css["register-title"]}>User Name</p>
+            <input
+              className={css["register-input"]}
+              // name="userName"
+              // onChange={formik.handleChange}
+              // onBlur={formik.handleBlur}
+              // value={formik.values.userName}
+              placeholder="User name"
+              {...formik.getFieldProps("userName")}
+            />
+            {formik.touched.userName && formik.errors.userName && (
+              <p className={css["text-danger"]}>{formik.errors.userName}</p>
+            )}
+          </div>
+          <div className={css["form-group"]}>
+            <p className={css["register-title"]}>Phone</p>
+            <input
+              className={css["register-input"]}
+              placeholder="Phone"
+              {...formik.getFieldProps("phone")}
+            />
+            {formik.touched.phone && formik.errors.phone && (
+              <p className={css["text-danger"]}>{formik.errors.phone}</p>
+            )}
+          </div>
+          <div className={css["form-group"]}>
+            <p className={css["register-title"]}>Gender</p>
+            <div className={css["radio-group"]}>
+              <input
+                {...formik.getFieldProps("gender")}
+                type="radio"
+                name="gender"
+                id="male"
+                value="true"
+              />
+              <label htmlFor="male">Male</label>
+              <input
+                {...formik.getFieldProps("gender")}
+                type="radio"
+                name="gender"
+                id="female"
+                value="false"
+              />
+              <label htmlFor="female">Female</label>
+            </div>
+            {formik.errors.gender && (
+              <p className={css["text-danger"]}>{formik.errors.gender}</p>
+            )}
+          </div>
+        </div>
+      </div>
+
       <br />
-      <input
-        // name="userName"
-        // onChange={formik.handleChange}
-        // onBlur={formik.handleBlur}
-        // value={formik.values.userName}
-        placeholder="User name"
-        {...formik.getFieldProps("userName")}
-      />
-      {formik.touched.userName && formik.errors.userName && (
-        <p>{formik.errors.userName}</p>
-      )}
-      <br />
-      <input placeholder="Password" {...formik.getFieldProps("password")} />
-      {formik.touched.password && formik.errors.password && (
-        <p>{formik.errors.password}</p>
-      )}
-      <br />
-      <input
-        placeholder="Confirm Password"
-        {...formik.getFieldProps("confirmPassword")}
-      />
-      {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-        <p>{formik.errors.confirmPassword}</p>
-      )}
-      <br />
-      <button type="submit">Submit</button>
+      <div className={css["button-container"]}>
+        <button className={css["submit-button"]} type="submit">
+          Submit
+        </button>
+      </div>
     </form>
   );
 }
