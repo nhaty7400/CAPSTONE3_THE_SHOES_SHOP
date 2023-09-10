@@ -1,0 +1,16 @@
+.size-button {
+    display: flex;
+    justify-content: center;
+    height: 5rem;
+    width: 5rem;
+    background-color: rgba(237, 249, 238, 1);
+    color: black;
+    font-size: 2.4rem;
+    font-weight: 600;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    &:focus{
+        background-color: rgba(9, 9, 230, 0.384);
+    }
+}

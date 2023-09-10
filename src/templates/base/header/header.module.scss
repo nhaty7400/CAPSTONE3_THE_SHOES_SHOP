@@ -1,0 +1,53 @@
+.header {
+    height: 5rem;
+    background-color: black;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 2.5rem;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+
+    gap: 1rem;
+}
+
+.header-left-search,
+.header-left-cart {
+    display: flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+}
+
+.header-left-author {
+    gap: 1rem;
+
+    a {
+        color: white;
+        text-decoration: none;
+        margin: 0 0.4rem;
+    }
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    padding: 1.6rem 2.5rem;
+    a {
+        text-decoration: none;
+        color: #000000;
+        font-weight: 300;
+    }
+
+    .active {
+        font-weight: 400;
+    }
+}

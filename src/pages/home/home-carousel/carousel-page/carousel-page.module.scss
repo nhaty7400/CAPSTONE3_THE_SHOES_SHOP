@@ -1,0 +1,41 @@
+.page{
+    display: flex;
+    justify-content: center;
+    gap:4rem;
+    background-color: white;
+    .image{
+
+    }
+    .content{
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        .title{
+            text-align: left;
+            color: black;
+            font-weight: 300;
+            font-size: 4rem;
+            margin:0;
+            line-height: 5rem;
+        }
+        .desc{
+            color: black;
+            font-weight: 300;
+            font-size: 2rem;
+            margin:0;
+            line-height: 5rem;
+        }
+        .action-buy{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 5rem;
+            width: 15rem;
+            font-size: 2rem;
+            font-weight: 300;
+            background-color: rgba(248, 182, 83, 1);
+            color: white;
+            border-radius: 0.2rem;
+        }
+    }
+}
