@@ -27,7 +27,7 @@ export const stateSwitchHandler = () => {
             refresh();
             // useSwitchHandler("/");
           }}
-        to="/home">
+        to="/">
           Logout
         </Link>
       </div>
@@ -45,7 +45,7 @@ function Header() {
   return (
     <>
       <header className={css.header}>
-        <Link to="/home">
+        <Link to="/">
           <img src="src/assets/imgs/logo.png" alt="" />
         </Link>
 
