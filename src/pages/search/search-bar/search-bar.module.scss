@@ -1,0 +1,32 @@
+.container{
+    margin: auto;
+    width: 80%;
+    .title{
+        font-weight: 500;
+        font-size: 2rem;
+        color: #00000099;
+
+    }
+    .search-input{
+        background-color: #21212114;
+        border:none;
+        padding: 0 2rem;
+        border-radius: 1rem;
+        width:45rem;
+        height: 7rem;
+        font-size: 1.8rem;
+        color: black;
+        
+    }
+    .clear-button{
+        margin: 0 4rem;
+        width: 13rem;
+        height: 5rem;
+        color: white;
+        font-size: 1.8rem;
+        border-radius: 5rem;
+        background-color: #6200EE;
+        border: none;
+
+    }
+}

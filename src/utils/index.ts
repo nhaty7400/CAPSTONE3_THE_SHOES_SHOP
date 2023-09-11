@@ -25,3 +25,19 @@ export const removeLocalStorage = (key: string) => {
     console.log(e);
   }
 };
+
+export const checkLocalStorage = (key: string) => {
+  try {
+    const token = getLocalStorage(key);
+    if (!token) {
+      return false;
+    }
+    return true;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const refresh = () => {
+  window.location.reload();
+};

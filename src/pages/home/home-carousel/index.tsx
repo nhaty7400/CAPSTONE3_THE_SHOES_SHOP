@@ -16,7 +16,7 @@ const contentStyle: React.CSSProperties = {
 
 const HomeCarousel: React.FC = () => {
   const onChange = (currentSlide: number) => {
-    console.log(currentSlide);
+
   };
 
   /**
@@ -32,32 +32,20 @@ const HomeCarousel: React.FC = () => {
   };
 
   const list = useAppSelector((state) => state.productReducer.listProduct);
-  console.log(list);
 
   return (
     // đối với những props có giá trị là true thì chỉ cần truyền tên không cần truyền cụ thể giá trị true
     <div>
-      <Carousel ref={refCarousel} afterChange={onChange}>
-        <div className={css["carousel-page"]}>
-          <div style={contentStyle}>
-            {/* <CarouselPage shoe={list[0]} /> */}
-          </div>
-        </div>
-        <div className={css["carousel-page"]}>
-          <div style={contentStyle}>
-            {/* <CarouselPage shoe={list[1]}/> */}
-          </div>
-        </div>
-        <div className={css["carousel-page"]}>
-          <div style={contentStyle}>
-            {/* <CarouselPage shoe={list[2]}/> */}
-          </div>
-        </div>
-        <div className={css["carousel-page"]}>
-          <div style={contentStyle}>
-            {/* <CarouselPage shoe={list[3]}/> */}
-          </div>
-        </div>
+      <Carousel ref={refCarousel} afterChange={onChange} autoplay>
+        {list.map((shoe) => {
+          return (
+            <div className={css["carousel-page"]}>
+              <div style={contentStyle}>
+                <CarouselPage shoe={shoe} />
+              </div>
+            </div>
+          );
+        })}
       </Carousel>
     </div>
   );

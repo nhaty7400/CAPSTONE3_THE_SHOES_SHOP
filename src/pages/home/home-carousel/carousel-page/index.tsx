@@ -15,7 +15,6 @@ type Props = {
 
 function CarouselPage(props: Props) {
   const { shoe } = props;
-  console.log(shoe);
   return (
     <div className={css["page"]}>
       <div className={css["image"]}>

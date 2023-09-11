@@ -4,11 +4,15 @@ import { TCardItem } from "src/type";
 type TState = {
   listProduct: TCardItem[];
   cart: any[];
+  searchResult: any[];
+  valueSearch: string;
 };
 
 const initialState: TState = {
   listProduct: [],
   cart: [],
+  searchResult: [],
+  valueSearch: "",
 };
 
 const productSlice = createSlice({
@@ -32,17 +36,30 @@ const productSlice = createSlice({
       const itemCart = state.cart.find((item) => item.id === action.payload.id);
       if (itemCart) {
         itemCart.quantityBuy += 1;
-        console.log(state.cart);
       } else {
-        console.log("action", action);
         state.cart.push(action.payload);
       }
+    },
+    searchProduct: (state, action) => {
+      let newArray = state.listProduct;
+      let resultArray: any[] = [];
+      if (action.payload.length <= 0) {
+        resultArray = [];
+      } else {
+        action.payload = action.payload.toLowerCase();
+        resultArray = newArray.filter(
+          (item) => item.name.toLowerCase().indexOf(action.payload) > -1,
+        );
+      }
+      state.searchResult = resultArray;
+      state.valueSearch = action.payload;
     },
   },
 });
 
 // action creator
-export const { setListProduct, addToCart } = productSlice.actions;
+export const { setListProduct, addToCart, searchProduct } =
+  productSlice.actions;
 
 export default productSlice.reducer;
 

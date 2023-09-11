@@ -1,8 +1,16 @@
 import React from 'react'
+import css from "./search.module.scss"
+import SearchBar from './search-bar'
+import SearchResult from './search-result'
+
 
 function Search() {
+  
   return (
-    <div>Search</div>
+    <div>
+      <SearchBar/>
+      <SearchResult/>
+    </div>
   )
 }
 

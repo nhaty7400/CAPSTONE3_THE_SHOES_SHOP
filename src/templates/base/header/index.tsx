@@ -7,6 +7,39 @@ import searchSvg from "src/assets/imgs/search.svg";
 // import IconSearch from "src/assets/icons/search.icon";
 // import IconCart from "src/assets/icons/cart.icon";
 import { IconCart, IconSearch } from "src/assets/icons";
+import { checkLocalStorage, refresh, removeLocalStorage } from "src/utils";
+import { ACCESS_TOKEN } from "src/constants";
+import { useNavigate } from "react-router-dom";
+
+// export function useSwitchHandler(address: string) {
+//   const navigate = useNavigate();
+//   navigate(address);
+// }
+
+export const stateSwitchHandler = () => {
+  if (checkLocalStorage(ACCESS_TOKEN)) {
+    return (
+      <div className={css["header-left-author"]}>
+        <Link
+          onClick={() => {
+            removeLocalStorage(ACCESS_TOKEN);
+            stateSwitchHandler();
+            refresh();
+            // useSwitchHandler("/");
+          }}
+        to="/">
+          Logout
+        </Link>
+      </div>
+    );
+  }
+  return (
+    <div className={css["header-left-author"]}>
+      <Link to="/login">Login</Link>
+      <Link to="/register">Register</Link>
+    </div>
+  );
+};
 
 function Header() {
   return (
@@ -26,10 +59,7 @@ function Header() {
             <IconCart />
             <span>(1)</span>
           </Link>
-          <div className={css["header-left-author"]}>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
-          </div>
+          {stateSwitchHandler()}
         </div>
       </header>
       <nav>
