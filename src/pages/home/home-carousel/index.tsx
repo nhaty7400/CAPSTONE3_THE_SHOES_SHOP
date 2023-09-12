@@ -15,9 +15,7 @@ const contentStyle: React.CSSProperties = {
 };
 
 const HomeCarousel: React.FC = () => {
-  const onChange = (currentSlide: number) => {
-
-  };
+  const onChange = (currentSlide: number) => {};
 
   /**
    * để truy cập được những methos của component export ra thì ta dùng useRef
@@ -37,9 +35,9 @@ const HomeCarousel: React.FC = () => {
     // đối với những props có giá trị là true thì chỉ cần truyền tên không cần truyền cụ thể giá trị true
     <div>
       <Carousel ref={refCarousel} afterChange={onChange} autoplay>
-        {list.map((shoe) => {
+        {list.map((shoe, index) => {
           return (
-            <div className={css["carousel-page"]}>
+            <div key={index} className={css["carousel-page"]}>
               <div style={contentStyle}>
                 <CarouselPage shoe={shoe} />
               </div>

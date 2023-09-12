@@ -19,22 +19,24 @@ export const userLogin = async (data: { email: string; password: string }) => {
 };
 
 export const getUserProfile = async () => {
-  // const resp = await axios({
-  //   url: "https://shop.cyberlearn.vn/api/Users/getProfile",
-  //   method: "post",
-  //   headers: {
-  //     Authorization: `Bearer ${getLocalStorage(ACCESS_TOKEN)}`,
-  //   },
-  // });
-
-  // return resp.data;
-
   const resp = await axiosWithAuth({
     url: "/Users/getProfile",
     method: "post", // 'POST'
   });
 
   return resp.data;
+};
+
+export const updateUserProfile = async (data: TParamsRegister) => {
+  try {
+    const resp = await axiosWithAuth({
+      url: "/Users/updateProfile",
+      method: "post",
+    });
+    return resp.data;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const signup = async (data: TParamsRegister) => {

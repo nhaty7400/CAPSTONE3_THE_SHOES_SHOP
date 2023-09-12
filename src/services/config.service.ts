@@ -23,7 +23,6 @@ axiosWithAuth.interceptors.request.use(
      */
     config.headers["Authorization"] = `Bearer ${getLocalStorage(ACCESS_TOKEN)}`;
    
-    config.headers['TOKEN_CYBER_SOFT'] = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCA1MDA4IiwiSGV0SGFuU3RyaW5nIjoiMjgvMDEvMjAyNCIsIkhldEhhblRpbWUiOiIxNzA2NDAwMDAwMDAwIiwibmJmIjoxNjc3NDMwODAwLCJleHAiOjE3MDY1NDc2MDB9.eo3y0MmcjE8Jl4fRzUJLBoZzylEeFDcUTfWXvtb1hdc`
    
     return config;
   },

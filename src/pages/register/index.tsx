@@ -38,11 +38,11 @@ const registerSchema = Y.object({
 });
 
 export type TParamsRegister = {
-  email: string;
-  password: string;
-  name: string;
+  email: string | undefined;
+  password: string | undefined;
+  name: string | undefined;
   gender: any;
-  phone: string;
+  phone: string | undefined;
 };
 
 function Register() {
@@ -105,7 +105,6 @@ function Register() {
 
       signup(data)
         .then((resp) => {
-          console.log(data.gender);
           alert("Ok");
           navigate("/login");
         })
