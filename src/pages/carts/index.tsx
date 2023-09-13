@@ -141,7 +141,7 @@ function Carts() {
               });
               
               const action = sendOrders(data);
-              dispatch(action);
+              // dispatch(action);
             } catch (e) {
               console.log(e);
             }
