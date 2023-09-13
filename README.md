@@ -1,3 +1,2 @@
-# Lỗi này là yêu cầu pull code mới về rồi mới được phép đẩy lên nha Ý. Để fix các xung đột xảy ra trong quá trình code giữa nhiều DEV với nha á.
-# Chừ pull về có xung đột thì fix rồi mới được phép đẩy lên nha
-# May la không có lỗi khi pull về
+Link deploy update: https://phenomenal-crumble-479bec.netlify.app
+Link em nộp trên web trung tâm bị lỗi ạ nên link deploy em thay bằng link này
