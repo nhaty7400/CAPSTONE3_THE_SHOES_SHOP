@@ -12,39 +12,6 @@ import { checkLocalStorage, refresh, removeLocalStorage } from "src/utils";
 import { ACCESS_TOKEN, EMAIL } from "src/constants";
 import { useNavigate } from "react-router-dom";
 
-// export function useSwitchHandler(address: string) {
-//   const navigate = useNavigate();
-//   navigate(address);
-// }
-
-export const stateSwitchHandler = () => {
-  if (checkLocalStorage(ACCESS_TOKEN)) {
-    return (
-      <div className={css["header-left-author"]}>
-        <Link to="/profile">Profile</Link>
-        <Link
-          onClick={() => {
-            removeLocalStorage(ACCESS_TOKEN);
-            removeLocalStorage(EMAIL);
-            stateSwitchHandler();
-            refresh();
-            // useSwitchHandler("/");
-          }}
-          to="/"
-        >
-          Logout
-        </Link>
-      </div>
-    );
-  }
-  return (
-    <div className={css["header-left-author"]}>
-      <Link to="/login">Login</Link>
-      <Link to="/register">Register</Link>
-    </div>
-  );
-};
-
 function Header() {
   const countCartItem = () => {
     const cart = useAppSelector((state) => {
@@ -52,6 +19,8 @@ function Header() {
     });
     return cart.length;
   };
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -70,7 +39,27 @@ function Header() {
             <IconCart />
             <span className={css["count-icon"]}>{countCartItem()}</span>
           </Link>
-          {stateSwitchHandler()}
+
+          {checkLocalStorage(ACCESS_TOKEN) === false ? (
+            <div className={css["header-left-author"]}>
+              <Link to="/login">Login</Link>
+              <Link to="/register">Register</Link>
+            </div>
+          ) : (
+            <div className={css["header-left-author"]}>
+              <Link to="/profile">Profile</Link>
+              <Link
+                onClick={() => {
+                  removeLocalStorage(ACCESS_TOKEN);
+                  removeLocalStorage(EMAIL);
+                  // refresh();
+                }}
+                to="/"
+              >
+                Logout
+              </Link>
+            </div>
+          )}
         </div>
       </header>
       <nav>

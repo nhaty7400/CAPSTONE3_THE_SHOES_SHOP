@@ -39,7 +39,6 @@ function Profile() {
   useEffect(() => {
     (async () => {
       const resp = await getUserProfile();
-      console.log(resp);
       setProfile(resp.content);
     })();
   }, []);

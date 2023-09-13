@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import css from "./carts.module.scss";
 import { useAppSelector, useAppDispatch } from "src/redux/config-store";
 import { useDispatch } from "react-redux";
@@ -7,9 +7,10 @@ import {
   deleteFromCart,
   emptyCart,
 } from "src/redux/slices/product.slice";
-import { getLocalStorage } from "src/utils";
-import { EMAIL } from "src/constants";
+import { checkLocalStorage, getLocalStorage } from "src/utils";
+import { ACCESS_TOKEN, EMAIL } from "src/constants";
 import { sendOrders } from "src/services/user.service";
+import { useNavigate } from "react-router-dom";
 
 export type Cart = {
   id: string;
@@ -34,12 +35,20 @@ export const handleTotal = (quantity: number, price: number) => {
 };
 
 function Carts() {
+  const navigate=useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    if(!checkLocalStorage(ACCESS_TOKEN)){
+      navigate("/login");
+    }
+  },[])
+
   let cart = useAppSelector((state) => {
     return state.productReducer.cart;
   });
 
-  const dispatch = useDispatch();
-  // const appDispatch=useAppDispatch();
+  
 
   const renderCart = (cart: Cart[]) => {
     return cart.map((item) => {

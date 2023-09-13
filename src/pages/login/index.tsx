@@ -7,7 +7,7 @@ import css from "./login.module.scss";
 import { useFormik } from "formik";
 import * as Y from "yup";
 import LoginFacebook from "./login-facebook/login-facebook";
-import { stateSwitchHandler } from "src/templates/base/header";
+
 
 const loginSchema = Y.object({
   email: Y.string()
@@ -55,9 +55,9 @@ function Login() {
 
           setLocalStorage(ACCESS_TOKEN, resp.content.accessToken);
           setLocalStorage(EMAIL, data.email);
-          stateSwitchHandler();
+          
           navigate("/profile");
-          refresh();
+          // refresh();
         })
         .catch((err) => {
           console.log(err);
