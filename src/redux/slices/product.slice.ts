@@ -1,14 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Cart } from "src/pages/carts";
 import { TCardItem } from "src/type";
 
 type TState = {
   listProduct: TCardItem[];
-  cart: any[];
+  cart: Cart[];
   searchResult: any[];
   valueSearch: string;
+  order:any;
 };
 
 const initialState: TState = {
+  order:{},
   listProduct: [],
   cart: [],
   searchResult: [],
@@ -22,7 +25,6 @@ const productSlice = createSlice({
     // name + reducer: productSlice/setListProduct
     setListProduct: (state, action) => {
       //
-      console.log({ action });
       // redux + immer: giúp chúng ta clone object, không cần quan tâm đến địa chỉ.
       // không cần dùng return
       state.listProduct = action.payload;
@@ -35,9 +37,11 @@ const productSlice = createSlice({
     addToCart: (state, action) => {
       const itemCart = state.cart.find((item) => item.id === action.payload.id);
       if (itemCart) {
-        itemCart.quantityBuy += 1;
+        itemCart.quantity += 1;
+        alert("Số lượng sản phẩm được tăng thêm 1");
       } else {
         state.cart.push(action.payload);
+        alert("Thêm sản phẩm vào giỏ hàng thành công");
       }
     },
     searchProduct: (state, action) => {
@@ -54,11 +58,23 @@ const productSlice = createSlice({
       state.searchResult = resultArray;
       state.valueSearch = action.payload;
     },
+    deleteFromCart:(state,action)=>{
+      state.cart=state.cart.filter((item)=>item.id !== action.payload);
+    },
+    changeProductBuyQuantity:(state,action)=>{
+      const {quantity,id}=action.payload;
+      const itemCart = state.cart.find((item) => item.id === id);
+      if(!itemCart)return state;
+      if(itemCart.quantity===1&&quantity===-1){
+        state.cart=state.cart.filter((item)=>item.id !== id);
+      }
+      itemCart.quantity+=1;
+    },
   },
 });
 
 // action creator
-export const { setListProduct, addToCart, searchProduct } =
+export const { setListProduct, addToCart, searchProduct,deleteFromCart,changeProductBuyQuantity } =
   productSlice.actions;
 
 export default productSlice.reducer;

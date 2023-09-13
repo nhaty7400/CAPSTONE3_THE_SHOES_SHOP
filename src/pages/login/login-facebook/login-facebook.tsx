@@ -2,7 +2,7 @@ import { Divider } from "antd";
 import axios from "axios";
 import React from "react";
 import FacebookLogin from "react-facebook-login";
-import { ACCESS_TOKEN } from "src/constants";
+import { ACCESS_TOKEN, EMAIL } from "src/constants";
 import { refresh, setLocalStorage } from "src/utils";
 import { useNavigate } from "react-router-dom";
 import { stateSwitchHandler } from "src/templates/base/header";
@@ -20,6 +20,7 @@ function LoginFacebook() {
     })
       .then((resp) => {
         setLocalStorage(ACCESS_TOKEN, resp.data.content.accessToken);
+        setLocalStorage(EMAIL, resp.data.content.email);
         stateSwitchHandler();
         navigate("/profile");
         refresh();

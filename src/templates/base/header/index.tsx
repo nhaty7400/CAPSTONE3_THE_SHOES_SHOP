@@ -8,7 +8,7 @@ import searchSvg from "src/assets/imgs/search.svg";
 // import IconCart from "src/assets/icons/cart.icon";
 import { IconCart, IconSearch } from "src/assets/icons";
 import { checkLocalStorage, refresh, removeLocalStorage } from "src/utils";
-import { ACCESS_TOKEN } from "src/constants";
+import { ACCESS_TOKEN, EMAIL } from "src/constants";
 import { useNavigate } from "react-router-dom";
 
 // export function useSwitchHandler(address: string) {
@@ -23,6 +23,7 @@ export const stateSwitchHandler = () => {
         <Link
           onClick={() => {
             removeLocalStorage(ACCESS_TOKEN);
+            removeLocalStorage(EMAIL);
             stateSwitchHandler();
             refresh();
             // useSwitchHandler("/");

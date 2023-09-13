@@ -3,6 +3,7 @@ import { axiosWithAuth, axiosWithoutAuth } from "./config.service";
 import axios from "axios";
 import { ACCESS_TOKEN } from "src/constants";
 import { TParamsRegister } from "src/pages/register";
+import { Orders } from "src/pages/carts";
 
 export const userLogin = async (data: { email: string; password: string }) => {
   try {
@@ -31,6 +32,18 @@ export const updateUserProfile = async (data: TParamsRegister) => {
   try {
     const resp = await axiosWithAuth({
       url: "/Users/updateProfile",
+      method: "post",
+    });
+    return resp.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const sendOrders = async (data: Orders) => {
+  try {
+    const resp = await axiosWithAuth({
+      url: "/Users/order",
       method: "post",
     });
     return resp.data;

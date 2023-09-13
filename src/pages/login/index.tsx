@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { userLogin } from "src/services/user.service";
 import { useNavigate, Link } from "react-router-dom";
 import { refresh, setLocalStorage } from "src/utils";
-import { ACCESS_TOKEN } from "src/constants";
+import { ACCESS_TOKEN, EMAIL } from "src/constants";
 import css from "./login.module.scss";
 import { useFormik } from "formik";
 import * as Y from "yup";
@@ -54,6 +54,7 @@ function Login() {
           // );
 
           setLocalStorage(ACCESS_TOKEN, resp.content.accessToken);
+          setLocalStorage(EMAIL, data.email);
           stateSwitchHandler();
           navigate("/profile");
           refresh();

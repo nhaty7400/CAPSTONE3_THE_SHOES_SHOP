@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getProductById } from "src/services/product.service";
 import { IProduct } from "./detail.type";
 import ListCard from "src/components/list-card";
@@ -7,14 +7,20 @@ import css from "./detail.module.scss";
 import { useDispatch } from "react-redux";
 import { addToCart } from "src/redux/slices/product.slice";
 import SizeButton from "./size-button";
+import { checkLocalStorage } from "src/utils";
+import { ACCESS_TOKEN } from "src/constants";
 
 type TParams = {
   productId: string;
 };
 
+
 function Detail() {
   const params = useParams<TParams>();
   const [productItem, setProductItem] = useState<IProduct>();
+  const navigate=useNavigate();
+
+  
 
   useEffect(() => {
     if (!params.productId) return;
@@ -59,8 +65,14 @@ function Detail() {
           <p className={css["product-price"]}>{productItem?.price}$</p>
           <button
             onClick={() => {
-              const itemCart={...productItem,quantityBuy:1}
-              const action = addToCart(itemCart);
+              const item={
+                id:productItem?.id,
+                name:productItem?.name,
+                img:productItem?.image,
+                price:productItem?.price,
+                quantity:1,
+              }
+              const action = addToCart(item);
               dispatch(action);
             }}
             className={css["product-action-add"]}
