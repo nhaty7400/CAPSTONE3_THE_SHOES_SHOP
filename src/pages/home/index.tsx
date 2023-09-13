@@ -18,8 +18,6 @@ function Home() {
 
   const dispatch = useDispatch();
 
-  console.log({ listProduct });
-
   useEffect(() => {
     // getAllProduct().then((resp)=>{
     //   console.log(resp);

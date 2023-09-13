@@ -4,8 +4,6 @@ export const getAllProduct = async () => {
   try {
     const resp = await axiosWithoutAuth("/product");
 
-    console.log(resp);
-
     return resp.data;
   } catch (error) {
     console.log(error);

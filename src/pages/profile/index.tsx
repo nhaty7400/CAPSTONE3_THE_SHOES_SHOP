@@ -43,7 +43,7 @@ function Profile() {
     })();
   }, []);
 
-  console.log(profile);
+  // console.log(profile);
 
   const formik: any = useFormik({
     initialValues: {
