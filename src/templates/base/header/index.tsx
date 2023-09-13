@@ -20,6 +20,7 @@ export const stateSwitchHandler = () => {
   if (checkLocalStorage(ACCESS_TOKEN)) {
     return (
       <div className={css["header-left-author"]}>
+        <Link to="/profile">Profile</Link>
         <Link
           onClick={() => {
             removeLocalStorage(ACCESS_TOKEN);

@@ -42,11 +42,13 @@ export const updateUserProfile = async (data: TParamsRegister) => {
 
 export const sendOrders = async (data: Orders) => {
   try {
-    const resp = await axiosWithAuth({
+    const resp = await axiosWithoutAuth({
       url: "/Users/order",
       method: "post",
+      data,
     });
-    return resp.data;
+    alert("Order thành công");
+    console.log(resp);
   } catch (err) {
     console.log(err);
   }

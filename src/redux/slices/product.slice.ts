@@ -70,11 +70,14 @@ const productSlice = createSlice({
       }
       itemCart.quantity+=1;
     },
+    emptyCart:(state)=>{
+      state.cart=[];
+    }
   },
 });
 
 // action creator
-export const { setListProduct, addToCart, searchProduct,deleteFromCart,changeProductBuyQuantity } =
+export const { setListProduct, addToCart, searchProduct,deleteFromCart,changeProductBuyQuantity,emptyCart } =
   productSlice.actions;
 
 export default productSlice.reducer;

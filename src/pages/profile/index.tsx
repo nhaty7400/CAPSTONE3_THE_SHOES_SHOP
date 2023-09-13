@@ -25,13 +25,13 @@ const profileSchema = Y.object({
   gender: Y.boolean().required("Bắt buộc chọn giới tính."),
 });
 
-// export type Profile = {
-//   orderHistory: any[];
-//   name: string | undefined;
-//   email: string | undefined;
-//   phone: string | undefined;
-//   gender: any;
-// };
+export type Profile = {
+  orderHistory: any[];
+  name: string | undefined;
+  email: string | undefined;
+  phone: string | undefined;
+  gender: any;
+};
 
 function Profile() {
   const [profile, setProfile] = useState<any>();
@@ -41,17 +41,18 @@ function Profile() {
       .then((resp) => {
         console.log(resp);
         setProfile(resp.content);
+        console.log(profile);
       })
       .catch((e) => console.log(e));
   }, []);
 
-  const formik = useFormik({
+  const formik: any = useFormik({
     initialValues: {
-      userName: "",
+      userName: "profile.name",
       password: "",
-      email: "profile?.email",
-      phone: "profile?.phone",
-      gender: "profile?.gender",
+      email: "",
+      phone: "",
+      gender: "",
     },
 
     validationSchema: profileSchema,

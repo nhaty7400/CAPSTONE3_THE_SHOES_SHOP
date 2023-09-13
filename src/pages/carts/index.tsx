@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import {
   changeProductBuyQuantity,
   deleteFromCart,
+  emptyCart,
 } from "src/redux/slices/product.slice";
 import { getLocalStorage } from "src/utils";
 import { EMAIL } from "src/constants";
@@ -33,7 +34,7 @@ export const handleTotal = (quantity: number, price: number) => {
 };
 
 function Carts() {
-  const cart = useAppSelector((state) => {
+  let cart = useAppSelector((state) => {
     return state.productReducer.cart;
   });
 
@@ -135,13 +136,18 @@ function Carts() {
               cart.map((item) => {
                 const itemOrder = {
                   productId: item.id,
-                  quantity: item.quantity,
+                  quantity: +item.quantity,
                 };
                 data.orderDetail.push(itemOrder);
               });
-              
-              const action = sendOrders(data);
-              // dispatch(action);
+              console.log(data);
+              sendOrders(data)
+                .then((resp) => {
+                  dispatch(emptyCart());
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
             } catch (e) {
               console.log(e);
             }
