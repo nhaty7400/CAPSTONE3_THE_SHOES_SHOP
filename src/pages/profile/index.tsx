@@ -22,7 +22,7 @@ const profileSchema = Y.object({
     .min(9, "Số điện thoại phải lớn hơn 9 số.")
     .max(10, "Số điện thoại phải nhỏ hơn 10 số.")
     .required("Bắt buộc nhập vào số điện thoại."),
-  gender: Y.boolean().required("Bắt buộc chọn giới tính."),
+  gender: Y.string().required("Bắt buộc chọn giới tính."),
 });
 
 export type Profile = {
@@ -37,18 +37,18 @@ function Profile() {
   const [profile, setProfile] = useState<any>();
 
   useEffect(() => {
-    getUserProfile()
-      .then((resp) => {
-        console.log(resp);
-        setProfile(resp.content);
-        console.log(profile);
-      })
-      .catch((e) => console.log(e));
+    (async () => {
+      const resp = await getUserProfile();
+      console.log(resp);
+      setProfile(resp.content);
+    })();
   }, []);
+
+  console.log(profile);
 
   const formik: any = useFormik({
     initialValues: {
-      userName: "profile.name",
+      userName: "",
       password: "",
       email: "",
       phone: "",
@@ -77,6 +77,61 @@ function Profile() {
     },
   });
 
+  // const ordersHistory: any = profile?.ordersHistory;
+  // console.log(ordersHistory);
+  // const renderOrdersHistory =(ordersHistory: any[]) => {
+  //   const result = ordersHistory.map((order) => {
+  //     return (
+  //       <div className={css["table-container"]}>
+  //         <h3 className={css["table-title"]}>
+  //           Order has been placed on {order.date}
+  //         </h3>
+  //         <table className={css["table"]}>
+  //           <thead>
+  //             <tr className={css["table-head"]}>
+  //               <th className={css["table-text"]}>id</th>
+  //               <th className={css["table-text"]}>img</th>
+  //               <th
+  //
+  //                 className={css["table-text"]}
+  //               >
+  //                 name
+  //               </th>
+  //               <th className={css["table-text"]}>price</th>
+  //               <th className={css["table-text"]}>quantity</th>
+  //               <th className={css["table-text"]}>total</th>
+  //             </tr>
+  //           </thead>
+  //           <tbody>{renderOrdersDetail(order.orderDetail)}</tbody>
+  //         </table>
+  //       </div>
+  //     );
+  //   });
+  //   return result;
+  // };
+
+  // const renderOrdersDetail =(ordersDetail: any[]) => {
+  //   const result =ordersDetail.map((item, index) => {
+  //     return (
+  //       <tr className={css["table-body"]} key={item.id}>
+  //         <td className={css["table-text"]}>{index + 1}</td>
+  //         <td className={css["table-img"]}>
+  //           <img src={item.image} alt="" />
+  //         </td>
+  //         <td style={{
+  //                   width: "10%",
+  //                 }} className={css["table-text"]}>{item.name}</td>
+  //         <td className={css["table-text"]}>{item.price}</td>
+  //         <td className={css["quantity"]}>
+  //           <span className={css["quantity-number"]}>{item.quantity}</span>
+  //         </td>
+  //         <td className={css["table-text"]}>{+item.quantity * +item.price}</td>
+  //       </tr>
+  //     );
+  //   });
+  //   return result;
+  // };
+
   return (
     <div>
       <h2 className={css["title-1"]}>Profile</h2>
@@ -98,6 +153,7 @@ function Profile() {
             <div className={css["form-group"]}>
               <p className={css["form-title"]}>Phone</p>
               <input
+                // {...formik.setFieldValue("phone",profile.phone)}
                 {...formik.getFieldProps("phone")}
                 className={css["form-input"]}
                 placeholder="phone"
@@ -164,32 +220,7 @@ function Profile() {
       </div>
       <div className={css["order-history"]}>
         <h2 className={css["title-2"]}>Order history</h2>
-        <div className={css["table-container"]}>
-          <table className={css["table"]}>
-            <thead>
-              <tr className={css["table-head"]}>
-                <th className={css["table-text"]}>id</th>
-                <th className={css["table-text"]}>img</th>
-                <th className={css["table-text"]}>name</th>
-                <th className={css["table-text"]}>price</th>
-                <th className={css["table-text"]}>quantity</th>
-                <th className={css["table-text"]}>total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className={css["table-body"]} key={1}>
-                <td className={css["table-text"]}></td>
-                <td className={css["table-img"]}></td>
-                <td className={css["table-text"]}></td>
-                <td className={css["table-text"]}></td>
-                <td className={css["quantity"]}>
-                  <span className={css["quantity-number"]}>1</span>
-                </td>
-                <td className={css["table-text"]}></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        {/* {renderOrdersHistory(ordersHistory)} */}
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import React from "react";
 import css from "./header.module.scss";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "src/redux/config-store";
 
 // cách 1:
 import searchSvg from "src/assets/imgs/search.svg";
@@ -29,7 +30,8 @@ export const stateSwitchHandler = () => {
             refresh();
             // useSwitchHandler("/");
           }}
-        to="/">
+          to="/"
+        >
           Logout
         </Link>
       </div>
@@ -44,6 +46,13 @@ export const stateSwitchHandler = () => {
 };
 
 function Header() {
+  const countCartItem = () => {
+    const cart = useAppSelector((state) => {
+      return state.productReducer.cart;
+    });
+    return cart.length;
+  };
+
   return (
     <>
       <header className={css.header}>
@@ -59,7 +68,7 @@ function Header() {
           </Link>
           <Link to="/carts" className={css["header-left-cart"]}>
             <IconCart />
-            <span>(1)</span>
+            <span className={css["count-icon"]}>{countCartItem()}</span>
           </Link>
           {stateSwitchHandler()}
         </div>

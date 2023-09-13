@@ -7,11 +7,11 @@ type TState = {
   cart: Cart[];
   searchResult: any[];
   valueSearch: string;
-  order:any;
+  order: any;
 };
 
 const initialState: TState = {
-  order:{},
+  order: {},
   listProduct: [],
   cart: [],
   searchResult: [],
@@ -58,27 +58,33 @@ const productSlice = createSlice({
       state.searchResult = resultArray;
       state.valueSearch = action.payload;
     },
-    deleteFromCart:(state,action)=>{
-      state.cart=state.cart.filter((item)=>item.id !== action.payload);
+    deleteFromCart: (state, action) => {
+      state.cart = state.cart.filter((item) => item.id !== action.payload);
     },
-    changeProductBuyQuantity:(state,action)=>{
-      const {quantity,id}=action.payload;
+    changeProductBuyQuantity: (state, action) => {
+      const { quantity, id } = action.payload;
       const itemCart = state.cart.find((item) => item.id === id);
-      if(!itemCart)return state;
-      if(itemCart.quantity===1&&quantity===-1){
-        state.cart=state.cart.filter((item)=>item.id !== id);
+      if (!itemCart) return state;
+      if (itemCart.quantity === 1 && quantity === -1) {
+        state.cart = state.cart.filter((item) => item.id !== id);
       }
-      itemCart.quantity+=1;
+      itemCart.quantity += quantity;
     },
-    emptyCart:(state)=>{
-      state.cart=[];
-    }
+    emptyCart: (state) => {
+      state.cart = [];
+    },
   },
 });
 
 // action creator
-export const { setListProduct, addToCart, searchProduct,deleteFromCart,changeProductBuyQuantity,emptyCart } =
-  productSlice.actions;
+export const {
+  setListProduct,
+  addToCart,
+  searchProduct,
+  deleteFromCart,
+  changeProductBuyQuantity,
+  emptyCart,
+} = productSlice.actions;
 
 export default productSlice.reducer;
 

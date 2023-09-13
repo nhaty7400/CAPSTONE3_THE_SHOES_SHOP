@@ -23,6 +23,17 @@
     align-items: center;
     color: white;
     text-decoration: none;
+    .count-icon{
+        height: 2rem;
+        width: 2rem;
+        border-radius: 50%;
+        font-size: 1.6rem;
+        border: none;
+        color: white;
+        background-color: red;
+        display: flex;
+        justify-content: center;
+    }
 }
 
 .header-left-author {

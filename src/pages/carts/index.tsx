@@ -56,7 +56,9 @@ function Carts() {
               alt=""
             />
           </td>
-          <td className={css["table-text"]}>{item.name}</td>
+          <td style={{
+            width:"10%",
+          }} className={css["table-text"]}>{item.name}</td>
           <td className={css["table-text"]}>{item.price}</td>
           <td className={css["quantity"]}>
             <button
