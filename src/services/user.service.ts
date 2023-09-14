@@ -33,6 +33,7 @@ export const updateUserProfile = async (data: TParamsRegister) => {
     const resp = await axiosWithAuth({
       url: "/Users/updateProfile",
       method: "post",
+      data,
     });
     return resp.data;
   } catch (err) {

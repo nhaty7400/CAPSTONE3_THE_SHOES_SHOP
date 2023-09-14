@@ -9,29 +9,33 @@ const profileSchema = Y.object({
   email: Y.string()
     .email()
     .required("Bắt buộc nhập vào email")
-    .email("email không hợp lệ"),
+    .email("email không hợp lệ")
+    .nullable(),
   userName: Y.string()
     .min(5, "User name phải lớn hơn 5 ký tự.")
     .max(20, "User name phải nhỏ hơn 20 ký tự.")
-    .required("Bắt buộc nhập vào user name."),
+    .required("Bắt buộc nhập vào user name.")
+    .nullable(),
   password: Y.string()
     .min(5, "Password phải lớn hơn 5 ký tự.")
     .max(20, "Password phải nhỏ hơn 20 ký tự.")
-    .required("Bắt buộc nhập vào password."),
+    .required("Bắt buộc nhập vào password.")
+    .nullable(),
   phone: Y.string()
     .min(9, "Số điện thoại phải lớn hơn 9 số.")
     .max(10, "Số điện thoại phải nhỏ hơn 10 số.")
-    .required("Bắt buộc nhập vào số điện thoại."),
-  gender: Y.string().required("Bắt buộc chọn giới tính."),
+    .required("Bắt buộc nhập vào số điện thoại.")
+    .nullable(),
+  gender: Y.boolean().required("Bắt buộc chọn giới tính.").nullable(),
 });
 
-export type Profile = {
-  orderHistory: any[];
-  name: string | undefined;
-  email: string | undefined;
-  phone: string | undefined;
-  gender: any;
-};
+// export type Profile = {
+//   orderHistory: any[];
+//   name: string | undefined;
+//   email: string | undefined;
+//   phone: string | undefined;
+//   gender: any;
+// };
 
 function Profile() {
   const [profile, setProfile] = useState<any>();
@@ -41,18 +45,19 @@ function Profile() {
       const resp = await getUserProfile();
       setProfile(resp.content);
     })();
-  }, [profile]);
+  }, []);
 
   const formik: any = useFormik({
     initialValues: {
-      userName: "",
+      userName: profile?.name,
       password: "",
-      email: "",
-      phone: "",
+      email: profile?.email,
+      phone: profile?.phone,
       gender: "",
     },
 
     validationSchema: profileSchema,
+    enableReinitialize: true,
 
     onSubmit: (value) => {
       const data: TParamsRegister = {
@@ -63,10 +68,11 @@ function Profile() {
         name: value.userName,
       };
 
+      console.log(data);
+
       updateUserProfile(data)
         .then((resp) => {
           alert("Update thành công");
-          console.log(resp);
         })
         .catch((e) => {
           console.log(e);
@@ -205,16 +211,18 @@ function Profile() {
                 {formik.errors.gender && (
                   <p className={css["text-danger"]}>{formik.errors.gender}</p>
                 )}
+                <br />
+                <div className={css["update-button-container"]}>
+                  <button type="submit" className={css["update-button"]}>
+                    UPDATE
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </form>
       </div>
-      <div className={css["update-button-container"]}>
-        <button type="submit" className={css["update-button"]}>
-          UPDATE
-        </button>
-      </div>
+
       <div className={css["order-history"]}>
         <h2 className={css["title-2"]}>Order history</h2>
         {renderOrdersHistory(ordersHistory)}

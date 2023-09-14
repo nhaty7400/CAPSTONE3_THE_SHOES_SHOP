@@ -163,10 +163,6 @@ function Register() {
             <p className={css["register-title"]}>User Name</p>
             <input
               className={css["register-input"]}
-              // name="userName"
-              // onChange={formik.handleChange}
-              // onBlur={formik.handleBlur}
-              // value={formik.values.userName}
               placeholder="User name"
               {...formik.getFieldProps("userName")}
             />

@@ -37,7 +37,6 @@ function Login() {
     validationSchema: loginSchema,
 
     onSubmit: function (value) {
-      console.log({ value });
       const data: TParamsLogin = {
         email: value.email,
         password: value.password,
