@@ -58,6 +58,18 @@ const productSlice = createSlice({
       state.searchResult = resultArray;
       state.valueSearch = action.payload;
     },
+    sortCart: (state, action) => {
+      if (action.payload === "decrease") {
+        state.searchResult = [...state.searchResult].sort((item1, item2) => {
+          return item1.price - item2.price;
+        });
+      }
+      if (action.payload === "increase") {
+        state.searchResult = [...state.searchResult].sort((item1, item2) => {
+          return item2.price - item1.price;
+        });
+      }
+    },
     deleteFromCart: (state, action) => {
       state.cart = state.cart.filter((item) => item.id !== action.payload);
     },
@@ -70,9 +82,6 @@ const productSlice = createSlice({
       }
       itemCart.quantity += quantity;
     },
-    emptyCart: (state) => {
-      state.cart = [];
-    },
   },
 });
 
@@ -83,7 +92,7 @@ export const {
   searchProduct,
   deleteFromCart,
   changeProductBuyQuantity,
-  emptyCart,
+  sortCart,
 } = productSlice.actions;
 
 export default productSlice.reducer;
