@@ -82,6 +82,9 @@ const productSlice = createSlice({
       }
       itemCart.quantity += quantity;
     },
+    emptyCart: (state) => {
+      state.cart = [];
+    },
   },
 });
 
@@ -93,6 +96,7 @@ export const {
   deleteFromCart,
   changeProductBuyQuantity,
   sortCart,
+  emptyCart,
 } = productSlice.actions;
 
 export default productSlice.reducer;
